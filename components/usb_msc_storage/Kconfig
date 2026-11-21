@@ -1,0 +1,58 @@
+menu "USB MSC Storage Library Config"
+    choice USB_MSC_STORAGE_MEDIA
+        prompt "Storage media"
+        default USB_MSC_STORAGE_SPIFLASH
+        config USB_MSC_STORAGE_SPIFLASH
+            bool "SPI Flash FAT partition"
+        config USB_MSC_STORAGE_SDMMC
+            bool "SDMMC SD Card"
+    endchoice
+
+    config USB_MSC_VID
+        hex "USB VID"
+        default 0x303A
+    config USB_MSC_PID
+        hex "USB PID"
+        default 0x4002
+    config USB_MSC_STR_MANUF
+        string "Manufacturer string"
+        default "MyDevice"
+    config USB_MSC_STR_PROD
+        string "Product string"
+        default "USB MSC Disk"
+    config USB_MSC_STR_SERIAL
+        string "Serial string"
+        default "000001"
+    config USB_MSC_FAT_MAX_FILE
+        int "Max open files for FatFS"
+        default 5
+
+    if USB_MSC_STORAGE_SDMMC
+        config USB_MSC_SD_CLK
+            int "SDMMC CLK pin"
+            default 41
+        config USB_MSC_SD_CMD
+            int "SDMMC CMD pin"
+            default 39
+        config USB_MSC_SD_D0
+            int "SDMMC D0 pin"
+            default 42
+        config USB_MSC_SD_D1
+            int "SDMMC D1 pin"
+            default 40
+        config USB_MSC_SD_D2
+            int "SDMMC D2 pin"
+            default 1
+        config USB_MSC_SD_D3
+            int "SDMMC D3 pin"
+            default 2
+
+        config USB_MSC_SD_PWR_CTRL_LDO_INTERNAL_IO
+            bool "Use internal LDO for SD power"
+        if USB_MSC_SD_PWR_CTRL_LDO_INTERNAL_IO
+            config USB_MSC_SD_LDO_CH
+                int "LDO channel ID"
+                default 0
+        endif
+    endif
+endmenu
